@@ -1,2 +1,319 @@
-<p>Hello World</p>
-<p>Hello World 2</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DASHA — Diarization-Aware Speech-LLM ASR for Healthcare</title>
+  <meta name="description" content="DASHA is a modular cascade of EEND-VC diarization, speaker-attributed ASR, and LLM extraction for code-switched Hinglish doctor–patient conversations. First place in DISPLACE-M among 25 teams.">
+  <meta property="og:title" content="DASHA — Diarization-Aware Speech-LLM ASR for Healthcare">
+  <meta property="og:description" content="Who said what in far-field, overlapping, code-switched clinical conversations. DISPLACE-M, 1st of 25.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="wordmark" href="#top">
+        <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="#141210"/>
+          <rect x="5" y="8" width="14" height="4" rx="2" fill="#1f6f62"/>
+          <rect x="13" y="14" width="14" height="4" rx="2" fill="#c45c26"/>
+          <rect x="7" y="20" width="10" height="4" rx="2" fill="#3d4a7a"/>
+        </svg>
+        DASHA
+      </a>
+      <nav aria-label="Primary">
+        <ul class="nav-links">
+          <li><a href="#paper">Paper</a></li>
+          <li><a href="#system">System</a></li>
+          <li><a href="#results">Results</a></li>
+          <li><a href="paper.pdf">PDF</a></li>
+          <li><a href="https://github.com/dasha-diarization">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="wrap hero" id="top">
+      <div>
+        <p class="kicker">Submitted to ICASSP 2027 · DISPLACE-M 2026</p>
+        <h1>Who said what.</h1>
+        <p class="lede">
+          DASHA is a diarization-aware speech-LLM cascade for healthcare: it labels the doctor and the patient, transcribes code-switched Hinglish, then extracts medical conditions.
+        </p>
+        <div class="actions">
+          <a class="button" href="paper.pdf">Read the paper</a>
+          <a class="button ghost" href="https://displace2026.github.io/">DISPLACE-M challenge</a>
+        </div>
+      </div>
+      <aside class="hero-aside">
+        <div class="stat-grid">
+          <div class="stat">
+            <b>1st / 25</b>
+            <span>Official DISPLACE-M ranking</span>
+          </div>
+          <div class="stat">
+            <b>7.76%</b>
+            <span>DER on EVAL1, down from 9.31%</span>
+          </div>
+          <div class="stat">
+            <b>19.27%</b>
+            <span>tcpWER with open models only</span>
+          </div>
+          <div class="stat">
+            <b>18.59%</b>
+            <span>tcpWER with optional LLM correction</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="wrap" id="viewer">
+      <article class="viewer" aria-labelledby="viewer-title">
+        <div class="viewer-bar">
+          <div>
+            <p>Illustration after Fig. 1 · doctor–patient · Hinglish</p>
+            <h2 id="viewer-title">A code-switched clinical exchange</h2>
+          </div>
+          <p>Click a bar or a turn</p>
+        </div>
+
+        <div class="tracks" id="tracks">
+          <div class="track">
+            <b>Doctor</b>
+            <div class="lane" aria-hidden="true">
+              <button class="seg" data-turn="t1" data-speaker="a" style="left:4%; width:48%" aria-label="Doctor from 0.6s to 7.4s"></button>
+              <button class="seg is-overlap" data-turn="t2" data-speaker="a" style="left:48%; width:8%" aria-label="Doctor overlapping the patient near 7.4s"></button>
+            </div>
+          </div>
+          <div class="track">
+            <b>Patient</b>
+            <div class="lane" aria-hidden="true">
+              <button class="seg is-overlap" data-turn="t2" data-speaker="b" style="left:46%; width:42%" aria-label="Patient from 7.1s to 13.2s"></button>
+            </div>
+          </div>
+        </div>
+        <div class="ruler" aria-hidden="true">
+          <span>00:00</span><span>00:05</span><span>00:10</span><span>00:14</span>
+        </div>
+
+        <div class="transcript" id="transcript">
+          <button class="turn is-active" id="t1" data-speaker="a">
+            <time datetime="PT0.6S">00:00.6</time>
+            <span>
+              <strong>Doctor</strong>
+              <span lang="hi">हम आपके <i>स्वास्थ्य</i> की <i>जानकारी</i> लेने के लिए आए हैं, क्या आप <i>स्वस्थ</i> हैं?</span>
+              <small>We came to take information about your health. Are you healthy?</small>
+            </span>
+          </button>
+          <button class="turn" id="t2" data-speaker="b">
+            <time datetime="PT7.1S">00:07.1</time>
+            <span>
+              <strong>Patient</strong>
+              <span lang="hi">कोई <i>परेशानी</i> नहीं है मेरे को तो।</span>
+              <small>I do not have any problem.</small>
+            </span>
+          </button>
+        </div>
+
+        <p class="extract">
+          Extraction target in the paper: the patient’s reported conditions, here <em>problem</em>, after diarization has separated the two speakers.
+        </p>
+      </article>
+    </section>
+
+    <section class="wrap section" id="paper">
+      <p class="kicker">The paper</p>
+      <h2>DASHA: Diarization-Aware Speech-LLM ASR for Healthcare in Code-Switched Indic Doctor-Patient Conversations</h2>
+      <div class="grid-2">
+        <div>
+          <p>
+            Community primary care in rural India is recorded in the field with one distant microphone. Turns are short, they overlap, and speakers mix Hindi and English. Extracting what the patient reports is then a speaker-attributed ASR problem, not a single-talker transcription problem.
+          </p>
+          <p>
+            The paper studies this on DISPLACE-M: 125 development dialogues (24.5 hours, 30.1k turns) and a blind EVAL1 set (10.1 hours). Overlap is only 4.35% of the audio, but it sits on frequent turn changes. The official metrics are DER with overlap and no collar, tcpWER for SA-ASR, and ROUGE F1 for condition lists.
+          </p>
+          <div class="actions">
+            <a class="button" href="paper.pdf">Download PDF</a>
+            <a class="button ghost" href="#cite">Citation</a>
+          </div>
+        </div>
+        <div>
+          <ul class="chips">
+            <li>EEND-VC + w2v-BERT 2.0</li>
+            <li>Qwen3-ASR-1.7B</li>
+            <li>Hinglish / Devanagari</li>
+            <li>Far-field clinical audio</li>
+            <li>Open cascade, optional GEC</li>
+            <li>CS-DER and CS-WER</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap section tight" id="system">
+      <p class="kicker">The cascade</p>
+      <h2>Diarization, then SA-ASR, then extraction.</h2>
+      <p class="intro">
+        Each module can be swapped on its own. That is how the paper shows that a better diarizer helps extraction only when the ASR is the adapted one.
+      </p>
+      <div class="steps steps-3">
+        <article class="step">
+          <span>01 · D3</span>
+          <h3>EEND-VC diarization</h3>
+          <p>w2v-BERT 2.0 with LoRA, an LSTM context network, a powerset classifier, and ResNet-34 embeddings clustered with k-means (k=2). Best EVAL1 DER: 7.76% after in-domain fine-tuning on C1.</p>
+        </article>
+        <article class="step">
+          <span>02 · A4 / A5</span>
+          <h3>Speaker-attributed ASR</h3>
+          <p>Qwen3-ASR-1.7B transcribes diarized turns only. Fine-tuning on public Hindi then DISPLACE-M, plus Unicode normalization, reaches 19.27% tcpWER. Optional dialogue-level GEC reaches 18.59%.</p>
+        </article>
+        <article class="step">
+          <span>03 · LLM</span>
+          <h3>Condition extraction</h3>
+          <p>An LLM reads the Hinglish SA-ASR transcript (cascade) or the audio directly (E2E). Best open cascade: Gemma 3 12B, 28.97 ROUGE-1. Gemini 3 Pro on audio is the empirical ceiling at 45.60.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap section" id="results">
+      <p class="kicker">EVAL1</p>
+      <h2>In-domain data moved the needle more than architecture.</h2>
+      <p class="intro">
+        Fine-tuning on DISPLACE-M cut 0.8–1.1 DER points and 6.1 tcpWER points. A larger meeting-style pre-training set, a Mamba context network, and a 2-speaker output each changed DER by at most 0.44 points.
+      </p>
+      <div class="grid-2 tables">
+        <div class="table-wrap">
+          <p class="meta">Table 1 · Diarization DER (%) ↓</p>
+          <table>
+            <thead>
+              <tr><th>System</th><th>FT</th><th>DER</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>DiariZen</td><td>—</td><td>9.31</td></tr>
+              <tr><td>D1 · C1 · LSTM</td><td>—</td><td>8.52</td></tr>
+              <tr class="best"><td>D3 · C1 · LSTM</td><td>yes</td><td>7.76</td></tr>
+              <tr><td>D4–D7 · C2 variants</td><td>yes</td><td>7.81–7.87</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-wrap">
+          <p class="meta">Table 2 · SA-ASR tcpWER (%) ↓</p>
+          <table>
+            <thead>
+              <tr><th>System</th><th>tcpWER</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>IndicConformer + DiariZen</td><td>26.78</td></tr>
+              <tr><td>Qwen3-ASR zero-shot</td><td>27.66</td></tr>
+              <tr><td>A3 · + DISPLACE-M FT</td><td>19.61</td></tr>
+              <tr class="best"><td>A4 · + Unicode norm (open)</td><td>19.27</td></tr>
+              <tr><td>A5 · + GEC</td><td>18.59</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="grid-2">
+        <p>
+          On code-switched words, the multilingual encoder (D1 vs DiariZen) reduces speaker confusion by 45% relative. Generic Hindi fine-tuning alone can raise CS-WER; in-domain Hinglish recovers those words. The paper therefore reports CS-DER and CS-WER next to the usual averages.
+        </p>
+        <p>
+          A module-swap with Gemma 3 12B is the practical takeaway: upgrading only ASR helps extraction (25.16 → 27.90 ROUGE-1); upgrading only diarization can hurt (23.72); upgrading both is best (28.97).
+        </p>
+      </div>
+    </section>
+
+    <section class="wrap section" id="authors">
+      <p class="kicker">Authors</p>
+      <h2>A collaboration across speech labs.</h2>
+      <ul class="authors">
+        <li><strong>Séverin Baroudi</strong><span>LIS, Université de Toulon · Idiap</span></li>
+        <li><strong>Yanis Labrak</strong><span>Idiap Research Institute</span></li>
+        <li><strong>Shashi Kumar</strong><span>Idiap · EPFL</span></li>
+        <li><strong>Joonas Kalda</strong><span>pyannoteAI</span></li>
+        <li><strong>Sergio Burdisso</strong><span>Idiap Research Institute</span></li>
+        <li><strong>Pawel Cyrta</strong><span>Stenograf</span></li>
+        <li><strong>Juan Ignacio Alvarez-Trejos</strong><span>pyannoteAI</span></li>
+        <li><strong>Petr Motlíček</strong><span>Idiap Research Institute</span></li>
+        <li><strong>Hervé Bredin</strong><span>pyannoteAI</span></li>
+        <li><strong>Ricard Marxer</strong><span>LIS · Mila · CNRS, ILLS</span></li>
+      </ul>
+    </section>
+
+    <section class="wrap section" id="cite">
+      <div class="grid-2">
+        <div>
+          <p class="kicker">Cite</p>
+          <h2>Code and weights will be released here.</h2>
+          <p>
+            The paper points to this site for the public release. Until the models are up, the PDF is the source of record.
+          </p>
+          <p class="disclaimer">
+            DASHA is a research prototype. Extracted conditions can be incomplete or hallucinated and must not be used for clinical decisions without review by qualified professionals.
+          </p>
+        </div>
+        <aside class="panel">
+          <p class="meta">BibTeX · submitted to ICASSP 2027</p>
+          <pre class="rttm" id="bibtex">@inproceedings{baroudi2027dasha,
+  title={DASHA: Diarization-Aware Speech-{LLM} {ASR}
+         for Healthcare in Code-Switched Indic
+         Doctor-Patient Conversations},
+  author={Baroudi, S{\'e}verin and Labrak, Yanis
+          and Kumar, Shashi and Kalda, Joonas
+          and Burdisso, Sergio and Cyrta, Pawel
+          and Alvarez-Trejos, Juan Ignacio
+          and Motl{\'i}{\v{c}}ek, Petr
+          and Bredin, Herv{\'e} and Marxer, Ricard},
+  booktitle={Submitted to IEEE ICASSP},
+  year={2027}
+}</pre>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>DASHA · DISPLACE-M · ICASSP 2027 submission</span>
+      <span>
+        <a href="paper.pdf">Paper</a>
+        ·
+        <a href="https://github.com/dasha-diarization">GitHub</a>
+        ·
+        <a href="https://www.idiap.ch/">Idiap</a>
+        ·
+        <a href="https://displace2026.github.io/">DISPLACE-M</a>
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    const turns = Array.from(document.querySelectorAll(".turn"));
+    const segs = Array.from(document.querySelectorAll(".seg"));
+
+    function activate(id) {
+      turns.forEach((turn) => turn.classList.toggle("is-active", turn.id === id));
+      segs.forEach((seg) => seg.classList.toggle("is-active", seg.dataset.turn === id));
+      const active = document.getElementById(id);
+      if (active && window.matchMedia("(max-width: 860px)").matches) {
+        active.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }
+    }
+
+    segs.forEach((seg) => {
+      seg.addEventListener("click", () => activate(seg.dataset.turn));
+    });
+
+    turns.forEach((turn) => {
+      turn.addEventListener("click", () => activate(turn.id));
+    });
+  </script>
+</body>
+</html>
